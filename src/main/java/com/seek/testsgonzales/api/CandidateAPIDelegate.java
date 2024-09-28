@@ -51,5 +51,5 @@ public interface CandidateAPIDelegate {
    * @return List of Candidate Information (status code 200)
    * @see CandidateAPI#getAllCandidates
    */
-  ResponseEntity<List<GenericResponse<CandidateDTO>>> getAllCandidates();
+  ResponseEntity<GenericResponse<List<CandidateDTO>>> getAllCandidates();
 }

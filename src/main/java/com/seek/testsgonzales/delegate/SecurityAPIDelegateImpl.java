@@ -25,14 +25,11 @@ public class SecurityAPIDelegateImpl implements SecurityAPIDelegate {
   public ResponseEntity<GenericResponse<String>> login(LoginRequest loginRequest) {
     try {
       authenticationManager.authenticate(
-          new UsernamePasswordAuthenticationToken(loginRequest.user(), loginRequest.password())
-      );
+          new UsernamePasswordAuthenticationToken(loginRequest.user(), loginRequest.password()));
     } catch (AuthenticationException e) {
       throw new RuntimeException("Incorrect username or password", e);
     }
-
-    final String jwt = jwtUtil.generateToken(loginRequest.user());
-
-    return ResponseEntity.ok(GenericResponse.<String>builder().success(true).data(jwt).build());
+    return ResponseEntity.ok(GenericResponse.<String>builder().success(true)
+        .data(jwtUtil.generateToken(loginRequest.user())).build());
   }
 }

@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "security", description = "Security API")
 public interface SecurityAPI {
 
+  /**
+   * Get the delegate
+   *
+   * @return the delegate
+   */
   SecurityAPIDelegate getDelegate();
 
   /**

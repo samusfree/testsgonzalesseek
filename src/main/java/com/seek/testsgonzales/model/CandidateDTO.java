@@ -10,18 +10,18 @@ import lombok.Data;
 @Schema(name = "CandidateDTO", description = "CandidateDTO Information")
 public class CandidateDTO {
 
-  @Schema(name = "id", description = "CandidateDTO ID")
+  @Schema(name = "id", description = "Candidate ID")
   private Integer id;
-  @Schema(name = "name", description = "CandidateDTO Name")
+  @Schema(name = "name", description = "Candidate Name")
   private String name;
-  @Schema(name = "lastName", description = "CandidateDTO Last Name")
+  @Schema(name = "lastName", description = "Candidate Last Name")
   private String lastName;
-  @Schema(name = "email", description = "CandidateDTO Email")
+  @Schema(name = "email", description = "Candidate Email")
   private String email;
-  @Schema(name = "phone", description = "CandidateDTO Phone")
+  @Schema(name = "gender", description = "Candidate Gender")
   private SexEnum gender;
-  @Schema(name = "salaryExpected", description = "CandidateDTO Salary Expected")
+  @Schema(name = "salaryExpected", description = "Candidate Salary Expected")
   private BigDecimal salaryExpected;
-  @Schema(name = "lastApply", description = "CandidateDTO Last Apply")
+  @Schema(name = "lastApply", description = "Candidate Last Apply")
   private Date lastApply;
 }

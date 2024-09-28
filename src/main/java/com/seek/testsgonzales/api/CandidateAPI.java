@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "candidate", description = "Candidates API")
 public interface CandidateAPI {
 
+  /**
+   * Get the delegate
+   *
+   * @return CandidateAPIDelegate
+   */
   CandidateAPIDelegate getDelegate();
 
   /**
@@ -65,7 +70,7 @@ public interface CandidateAPI {
   @SecurityRequirement(name = "Bearer Authentication")
   @SecurityRequirement(name = "Bearer Authentication")
   @GetMapping(value = "/candidate", produces = {"application/json"})
-  default ResponseEntity<List<GenericResponse<CandidateDTO>>> getAllCandidates() {
+  default ResponseEntity<GenericResponse<List<CandidateDTO>>> getAllCandidates() {
     return getDelegate().getAllCandidates();
   }
 

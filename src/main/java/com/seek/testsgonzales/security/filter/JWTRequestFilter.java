@@ -30,6 +30,15 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     this.jwtUtil = jwtUtil;
   }
 
+  /**
+   * This method is used to do the filter internally.
+   *
+   * @param request the request
+   * @param response the response
+   * @param filterChain the filter chain
+   * @throws ServletException the servlet exception
+   * @throws IOException the io exception
+   */
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response,
@@ -43,16 +52,34 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     filterChain.doFilter(request, response);
   }
 
+  /**
+   * This method is used to check if the request has the authorization bearer.
+   *
+   * @param request the request
+   * @return the boolean
+   */
   private boolean hasAuthorizationBearer(HttpServletRequest request) {
     String header = request.getHeader(AUTHORIZATION_HEADER);
     return !ObjectUtils.isEmpty(header) && header.startsWith(BEARER);
   }
 
+  /**
+   * This method is used to get the access token from the request.
+   *
+   * @param request the request
+   * @return the access token
+   */
   private String getAccessToken(HttpServletRequest request) {
     String header = request.getHeader(AUTHORIZATION_HEADER);
     return StringUtils.substring(header, BEARER.length());
   }
 
+  /**
+   * This method is used to set the authentication context.
+   *
+   * @param token the token
+   * @param request the request
+   */
   private void setAuthenticationContext(String token, HttpServletRequest request) {
     UsernamePasswordAuthenticationToken
         authentication = new UsernamePasswordAuthenticationToken(getUserDetails(token), null, null);
@@ -61,6 +88,12 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 
+  /**
+   * This method is used to get the user details from the token.
+   *
+   * @param token the token
+   * @return the user details
+   */
   private User getUserDetails(String token) {
     String username = jwtUtil.extractUsername(token);
     return new User(username, StringUtils.EMPTY, new ArrayList<>());
