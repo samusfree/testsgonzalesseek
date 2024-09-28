@@ -40,8 +40,7 @@ public class WebSecurityConfig {
   @Bean
   public InMemoryUserDetailsManager userDetailsManager() {
     PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    UserDetails user = User.builder().username("user").password(encoder.encode("password")).build();
-
+    UserDetails user = User.builder().username("seek").password(encoder.encode("seek")).build();
     return new InMemoryUserDetailsManager(user);
   }
 
@@ -69,7 +68,7 @@ public class WebSecurityConfig {
                 "/api/v1/candidate/**").permitAll())
         .authorizeHttpRequests(
             (authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/api/v1/candidate",
-                "/api/v1/candidates/**").authenticated()).cors(Customizer.withDefaults())
+                "/api/v1/candidate/**").authenticated()).cors(Customizer.withDefaults())
         .csrf(AbstractHttpConfigurer::disable);
     http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
