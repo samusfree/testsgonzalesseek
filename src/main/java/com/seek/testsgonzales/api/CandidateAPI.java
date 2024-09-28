@@ -4,11 +4,7 @@ import com.seek.testsgonzales.model.CandidateDTO;
 import com.seek.testsgonzales.model.GenericResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.OAuthFlow;
-import io.swagger.v3.oas.annotations.security.OAuthFlows;
-import io.swagger.v3.oas.annotations.security.OAuthScope;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@SecurityScheme(name = "petstore_auth", type = SecuritySchemeType.OAUTH2, flows = @OAuthFlows(implicit = @OAuthFlow(authorizationUrl = "https://petstore3.swagger.io/oauth/authorize", scopes = {
-    @OAuthScope(name = "write:pets", description = "modify pets in your account"),
-    @OAuthScope(name = "read:pets", description = "read your pets")})))
 @Tag(name = "candidate", description = "Candidates API")
 public interface CandidateAPI {
 
   CandidateAPIDelegate getDelegate();
 
   /**
-   * POST /candidate/ : Create a new candidate
+   * POST /candidate : Create a new candidate
    *
    * @param candidateDTO Candidate Information (required)
    * @return Created candidate (status code 201)
    */
   @Operation(summary = "Create a new candidate", description = "Create a new candidate", tags = {
       "candidate"})
+  @SecurityRequirement(name = "Bearer Authentication")
   @PostMapping(value = "/candidate", consumes = {"application/json"}, produces = {
       "application/json"})
   default ResponseEntity<GenericResponse<CandidateDTO>> createCandidate(
@@ -52,6 +46,7 @@ public interface CandidateAPI {
    */
   @Operation(summary = "Get candidate by ID", description = "Get candidate by ID", tags = {
       "candidate"})
+  @SecurityRequirement(name = "Bearer Authentication")
   @GetMapping(value = "/candidate/{id}", produces = {"application/json"})
   default ResponseEntity<GenericResponse<CandidateDTO>> getCandidateById(
       @Parameter(description = "ID of candidate to return", required = true)
@@ -67,6 +62,8 @@ public interface CandidateAPI {
    */
   @Operation(summary = "Get all candidates", description = "Get all candidates", tags = {
       "candidate"})
+  @SecurityRequirement(name = "Bearer Authentication")
+  @SecurityRequirement(name = "Bearer Authentication")
   @GetMapping(value = "/candidate", produces = {"application/json"})
   default ResponseEntity<List<GenericResponse<CandidateDTO>>> getAllCandidates() {
     return getDelegate().getAllCandidates();
