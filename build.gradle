@@ -57,12 +57,14 @@ def commonJacocoCoverageConfig = {
     classDirectories.setFrom(files(classDirectories.files.collect {
       fileTree(dir: it, excludes: [
           'com/seek/testsgonzales/model/**',
+          'com/seek/testsgonzales/enums/**',
           'com/seek/testsgonzales/api/**',
           'com/seek/testsgonzales/config/**',
           'com/seek/testsgonzales/exception/**',
           'com/seek/testsgonzales/entities/**',
           'com/seek/testsgonzales/repository/**',
           'com/seek/testsgonzales/constants/**',
+          'com/seek/testsgonzales/TestSGonzalesApplication.class',
       ])
     }))
   }
@@ -122,6 +124,8 @@ dependencies {
   testImplementation "org.projectlombok:lombok:${lombokVersion}"
   testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
   testAnnotationProcessor "org.projectlombok:lombok-mapstruct-binding:${mapstructLombokBindingVersion}"
+  testImplementation "org.testcontainers:spock:${testContainersVersion}"
+  testImplementation "org.testcontainers:mysql:${testContainersVersion}"
   runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 

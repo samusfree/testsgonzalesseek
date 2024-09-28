@@ -7,17 +7,23 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JWTUtil {
 
-  @Value("${jwt.secret}")
-  private String secret;
+  private final String secret;
+  private final long expiration;
 
-  @Value("${jwt.expiration}")
-  private long expiration;
+  public JWTUtil(@Value("${jwt.secret}") String secret,
+      @Value("${jwt.expiration}") long expiration) {
+    this.secret = secret;
+    this.expiration = expiration;
+  }
 
   /**
    * Extracts the username from the token
@@ -27,16 +33,6 @@ public class JWTUtil {
    */
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
-  }
-
-  /**
-   * Extracts the expiration date from the token
-   *
-   * @param token the token
-   * @return the expiration date
-   */
-  public Date extractExpiration(String token) {
-    return extractClaim(token, Claims::getExpiration);
   }
 
   /**
@@ -60,16 +56,6 @@ public class JWTUtil {
    */
   private Claims extractAllClaims(String token) {
     return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-  }
-
-  /**
-   * Checks if the token is expired
-   *
-   * @param token the token
-   * @return true if the token is expired, false otherwise
-   */
-  private Boolean isTokenExpired(String token) {
-    return extractExpiration(token).before(new Date());
   }
 
   /**
@@ -104,6 +90,13 @@ public class JWTUtil {
    * @return true if the token is valid, false otherwise
    */
   public Boolean isValidToken(String token) {
-    return !isTokenExpired(token);
+    try {
+      if (StringUtils.isNotBlank(extractUsername(token))) {
+        return true;
+      }
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+    return false;
   }
 }

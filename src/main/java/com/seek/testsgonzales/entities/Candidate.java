@@ -3,17 +3,25 @@ package com.seek.testsgonzales.entities;
 import com.seek.testsgonzales.enums.SexEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "candidates")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Candidate {
 
   @Id
@@ -27,6 +35,7 @@ public class Candidate {
   @Column(name = "email")
   private String email;
   @Column(name = "gender")
+  @Enumerated(EnumType.STRING)
   private SexEnum gender;
   @Column(name = "salary_expected")
   private BigDecimal salaryExpected;
