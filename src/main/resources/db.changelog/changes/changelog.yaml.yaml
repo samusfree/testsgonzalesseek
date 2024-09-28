@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 'seek1'
+      author: 'sagonzales89@gmail.com'
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_candidates
+                  name: id
+                  type: INT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  name: gender
+                  type: SMALLINT
+              - column:
+                  name: salary_expected
+                  type: DECIMAL
+              - column:
+                  name: last_apply
+                  type: DATETIME
+            tableName: candidates
