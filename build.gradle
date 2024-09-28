@@ -1,0 +1,119 @@
+plugins {
+  id 'application'
+  id 'groovy'
+  id 'jacoco'
+  id 'java'
+  id 'org.springframework.boot' version "${springBootVersion}"
+  id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+  id "org.liquibase.gradle" version "${liquibaseGradleVersion}"
+  id 'org.unbroken-dome.test-sets' version "${domeTestSetsVersion}"
+}
+
+group = 'com.seek.testsgonzales'
+version = "${appVersion}"
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
+bootJar {
+  archiveBaseName = 'test-sgonzales-service'
+  archiveVersion = appVersion
+  mainClass = 'com.seek.testsgonzales.TestSGonzalesApplication'
+}
+
+application {
+  mainClass = 'com.seek.testsgonzales.TestSGonzalesApplication'
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+testSets {
+  integrationTest { dirName = 'integration-test' }
+}
+
+integrationTest() {
+  useJUnitPlatform()
+  forkEvery = 0
+}
+
+test {
+  useJUnitPlatform()
+}
+
+def commonJacocoCoverageConfig = {
+  executionData fileTree(layout.buildDirectory).include("jacoco/test.exec")
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, excludes: [
+          'com/seek/testsgonzales/model/**',
+          'com/seek/testsgonzales/api/**',
+          'com/seek/testsgonzales/config/**',
+          'com/seek/testsgonzales/exception/**',
+          'com/seek/testsgonzales/entities/**',
+          'com/seek/testsgonzales/repository/**',
+          'com/seek/testsgonzales/constants/**',
+      ])
+    }))
+  }
+}
+
+jacocoTestReport {
+  dependsOn test // tests are required to run before generating the report
+  reports {
+    xml.required = true
+  }
+  configure commonJacocoCoverageConfig
+}
+
+jacocoIntegrationTestReport {
+  dependsOn integrationTest // tests are required to run before generating the report
+  reports {
+    xml.required = true
+  }
+  configure commonJacocoCoverageConfig
+}
+
+jacoco {
+  toolVersion = "0.8.12"
+  reportsDirectory = layout.buildDirectory.dir('reports/jacoco')
+  jacocoTestCoverageVerification {
+    violationRules {
+      rule {
+        limit {
+          minimum = 0.90
+        }
+      }
+    }
+    configure commonJacocoCoverageConfig
+  }
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseCoreVersion}"
+  implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: "${swaggerAnnotationsVersion}"
+  implementation "io.springfox:springfox-swagger2:${springFoxSwaggerVersion}"
+  implementation "org.apache.commons:commons-lang3:${commonsLang3Version}"
+  compileOnly 'org.projectlombok:lombok'
+  runtimeOnly 'com.mysql:mysql-connector-j'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.security:spring-security-test'
+  testImplementation "org.spockframework:spock-core:${spockVersion}"
+  testImplementation "org.spockframework:spock-spring:${spockVersion}"
+}
+
+check.dependsOn jacocoTestCoverageVerification
