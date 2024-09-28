@@ -36,6 +36,6 @@ public enum SexEnum {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    throw new IllegalArgumentException("Unexpected value '%s'".formatted(value));
   }
 }
