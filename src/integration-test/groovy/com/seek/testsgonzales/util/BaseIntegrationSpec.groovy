@@ -9,7 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.MySQLContainer
+import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.ext.ScriptUtils
 import org.testcontainers.jdbc.JdbcDatabaseDelegate
 import org.testcontainers.utility.DockerImageName
@@ -31,19 +31,19 @@ abstract class BaseIntegrationSpec extends Specification {
   protected ObjectMapper objectMapper
 
   @Shared
-  private static MySQLContainer mySQLSQLContainer = new MySQLContainer(DockerImageName.parse("mysql:latest"))
+  private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer(DockerImageName.parse("postgres:latest"))
       .withDatabaseName("seek")
       .withUsername("user")
       .withPassword("password")
 
-  private JdbcDatabaseDelegate containerDelegate = new JdbcDatabaseDelegate(mySQLSQLContainer, "")
+  private JdbcDatabaseDelegate containerDelegate = new JdbcDatabaseDelegate(postgreSQLContainer, "")
 
   @DynamicPropertySource
   static void configureProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.datasource.url", mySQLSQLContainer::getJdbcUrl)
-    registry.add("spring.datasource.username", mySQLSQLContainer::getUsername)
-    registry.add("spring.datasource.password", mySQLSQLContainer::getPassword)
-    mySQLSQLContainer.start()
+    registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl)
+    registry.add("spring.datasource.username", postgreSQLContainer::getUsername)
+    registry.add("spring.datasource.password", postgreSQLContainer::getPassword)
+    postgreSQLContainer.start()
   }
 
   def setup() {

@@ -22,12 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@SecurityScheme(
-    name = "Bearer Authentication",
-    type = SecuritySchemeType.HTTP,
-    bearerFormat = "JWT",
-    scheme = "bearer"
-)
 @EnableWebSecurity
 public class WebSecurityConfig {
 
