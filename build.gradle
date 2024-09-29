@@ -1,22 +1,17 @@
 plugins {
-  id 'application'
   id 'groovy'
-  id 'jacoco'
-  id 'java'
+  id 'idea'
   id 'org.springframework.boot' version "${springBootVersion}"
   id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
-  id "org.liquibase.gradle" version "${liquibaseGradleVersion}"
   id 'org.unbroken-dome.test-sets' version "${domeTestSetsVersion}"
+  id 'application'
+  id 'jacoco'
+  id 'java'
+  id "org.liquibase.gradle" version "${liquibaseGradleVersion}"
 }
 
 group = 'com.seek.testsgonzales'
 version = "${appVersion}"
-
-java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
-  }
-}
 
 bootJar {
   archiveBaseName = 'test-sgonzales-service'
@@ -24,14 +19,14 @@ bootJar {
   mainClass = 'com.seek.testsgonzales.TestSGonzalesApplication'
 }
 
-application {
-  mainClass = 'com.seek.testsgonzales.TestSGonzalesApplication'
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
-configurations {
-  compileOnly {
-    extendsFrom annotationProcessor
-  }
+application {
+  mainClass = 'com.seek.testsgonzales.TestSGonzalesApplication'
 }
 
 repositories {
@@ -57,12 +52,14 @@ def commonJacocoCoverageConfig = {
     classDirectories.setFrom(files(classDirectories.files.collect {
       fileTree(dir: it, excludes: [
           'com/seek/testsgonzales/model/**',
+          'com/seek/testsgonzales/enums/**',
           'com/seek/testsgonzales/api/**',
           'com/seek/testsgonzales/config/**',
           'com/seek/testsgonzales/exception/**',
           'com/seek/testsgonzales/entities/**',
           'com/seek/testsgonzales/repository/**',
           'com/seek/testsgonzales/constants/**',
+          'com/seek/testsgonzales/TestSGonzalesApplication.class',
       ])
     }))
   }
@@ -122,6 +119,8 @@ dependencies {
   testImplementation "org.projectlombok:lombok:${lombokVersion}"
   testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
   testAnnotationProcessor "org.projectlombok:lombok-mapstruct-binding:${mapstructLombokBindingVersion}"
+  testImplementation "org.testcontainers:spock:${testContainersVersion}"
+  testImplementation "org.testcontainers:mysql:${testContainersVersion}"
   runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 

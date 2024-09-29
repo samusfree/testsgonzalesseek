@@ -25,7 +25,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: gender
-                  type: SMALLINT
+                  type: CHAR(1)
               - column:
                   name: salary_expected
                   type: DECIMAL
