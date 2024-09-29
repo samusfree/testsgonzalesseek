@@ -33,7 +33,7 @@ public interface CandidateAPI {
    */
   @Operation(summary = "Create a new candidate", description = "Create a new candidate", tags = {
       "candidate"})
-  @SecurityRequirement(name = "Bearer Authentication")
+  @SecurityRequirement(name = "BearerAuthentication")
   @PostMapping(value = "/candidate", consumes = {"application/json"}, produces = {
       "application/json"})
   default ResponseEntity<GenericResponse<CandidateDTO>> createCandidate(
@@ -51,7 +51,7 @@ public interface CandidateAPI {
    */
   @Operation(summary = "Get candidate by ID", description = "Get candidate by ID", tags = {
       "candidate"})
-  @SecurityRequirement(name = "Bearer Authentication")
+  @SecurityRequirement(name = "BearerAuthentication")
   @GetMapping(value = "/candidate/{id}", produces = {"application/json"})
   default ResponseEntity<GenericResponse<CandidateDTO>> getCandidateById(
       @Parameter(description = "ID of candidate to return", required = true)
@@ -67,8 +67,7 @@ public interface CandidateAPI {
    */
   @Operation(summary = "Get all candidates", description = "Get all candidates", tags = {
       "candidate"})
-  @SecurityRequirement(name = "Bearer Authentication")
-  @SecurityRequirement(name = "Bearer Authentication")
+  @SecurityRequirement(name = "BearerAuthentication")
   @GetMapping(value = "/candidate", produces = {"application/json"})
   default ResponseEntity<GenericResponse<List<CandidateDTO>>> getAllCandidates() {
     return getDelegate().getAllCandidates();

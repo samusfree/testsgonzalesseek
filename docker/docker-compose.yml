@@ -1,17 +1,15 @@
 name: seek-sgonzalestest-local-dev-environment
 services:
-  mysql:
-    image: mysql:9.0.1
+  postgres:
+    image: postgres
     restart: always
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      MYSQL_DATABASE: 'seek'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: seek
     volumes:
-      - mysqldata:/var/lib/mysql
-
+      - pgdata:/var/lib/postgresql/data
 volumes:
-  mysqldata:
+  pgdata:

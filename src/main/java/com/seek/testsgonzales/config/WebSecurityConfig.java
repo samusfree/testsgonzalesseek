@@ -22,12 +22,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@SecurityScheme(
-    name = "Bearer Authentication",
-    type = SecuritySchemeType.HTTP,
-    bearerFormat = "JWT",
-    scheme = "bearer"
-)
 @EnableWebSecurity
 public class WebSecurityConfig {
 
@@ -56,7 +50,7 @@ public class WebSecurityConfig {
     http
         .authorizeHttpRequests(
             (authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/api/v1/login",
-                "swagger-ui.html", "swagger-ui/**", "/v3/api-docs/**").permitAll())
+                "swagger-ui.html", "swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll())
         .authorizeHttpRequests(
             (authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers("/swagger-ui.html")
                 .permitAll())

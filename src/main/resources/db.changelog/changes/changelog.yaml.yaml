@@ -8,6 +8,8 @@ databaseChangeLog:
             columns:
               - column:
                   autoIncrement: true
+                  startWith: 10
+                  incrementBy: 1
                   constraints:
                     nullable: false
                     primaryKey: true

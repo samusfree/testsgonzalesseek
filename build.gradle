@@ -97,6 +97,7 @@ jacoco {
 }
 
 dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -110,7 +111,7 @@ dependencies {
   implementation "org.mapstruct:mapstruct:${mapstructVersion}"
   annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
   annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${mapstructLombokBindingVersion}"
-  runtimeOnly 'com.mysql:mysql-connector-j'
+  implementation 'org.postgresql:postgresql'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.security:spring-security-test'
   testImplementation "org.spockframework:spock-core:${spockVersion}"
@@ -120,7 +121,7 @@ dependencies {
   testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
   testAnnotationProcessor "org.projectlombok:lombok-mapstruct-binding:${mapstructLombokBindingVersion}"
   testImplementation "org.testcontainers:spock:${testContainersVersion}"
-  testImplementation "org.testcontainers:mysql:${testContainersVersion}"
+  testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
   runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 

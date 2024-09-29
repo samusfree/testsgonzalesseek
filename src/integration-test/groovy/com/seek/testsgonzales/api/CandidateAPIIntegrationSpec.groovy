@@ -105,7 +105,7 @@ class CandidateAPIIntegrationSpec extends BaseIntegrationSpec {
     then:
     response.statusCode.value() == HttpStatus.CREATED.value()
     response.body.success
-    response.body.data.id == 6
+    response.body.data.id == 10
     response.body.data.name == "Samuel"
     response.body.data.lastName == "Gonzales"
     response.body.data.email == "sagonzales89@gmail.com"
