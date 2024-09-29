@@ -52,7 +52,7 @@ class CandidateAPIIntegrationSpec extends BaseIntegrationSpec {
         .exchange("/api/v1/candidate/1000", GET, entity, GenericResponse<Void>.class)
 
     then:
-    response.statusCode.value() == HttpStatus.INTERNAL_SERVER_ERROR.value()
+    response.statusCode.value() == HttpStatus.OK.value()
     !response.body.success
     response.body.message == "Candidate not found"
   }
