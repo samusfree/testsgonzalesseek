@@ -2,11 +2,11 @@ name: Deploy to Amazon ECS
 
 # Only trigger, when the build workflow succeeded
 on:
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
   workflow_run:
-    workflows: [ "Run Unit Test and Integration" ]
+    workflows: [ "Run unit and integration test cases" ]
     types:
       - completed
 
