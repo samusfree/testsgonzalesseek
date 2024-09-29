@@ -1,0 +1,35 @@
+name: Run Unit Test and Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      -
+permissions:
+  contents: read
+
+jobs:
+  test-case-run:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 8.10.2
+      - name: run unit test cases
+        run: ./gradlew clean test
+      - name: run unit test coverage report
+        run: ./gradlew jacocoTestCoverageVerification
+      - name: run integration test cases
+        run: ./gradlew integrationTest
